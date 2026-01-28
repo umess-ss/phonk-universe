@@ -1,0 +1,12 @@
+# Python virtual environment
+venv/
+__pycache__/
+
+# Environment variables (Crucial!)
+.env
+.env.local
+backend/.env
+
+# Node dependencies
+node_modules/
+dist/
