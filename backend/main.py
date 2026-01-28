@@ -29,17 +29,12 @@ async def create_track(track: Track):
     track_dict = jsonable_encoder(track)
 
     # 2. Insert into MongoDB
-    new_track = await track_collection.insert_one(track_dict)
+    result = await track_collection.insert_one(track_dict)
 
-    # 3. Find the created track to return it
-    created_track = await track_collection.find_one({"id": new_track.inserted_id})
+    # 3. Instead of searching again, just add the new ID to our dictionary
+    track_dict["_id"] = str(result.inserted_id)
 
-    # 4. Convert MongoDB _id to string for JSON compactibility
-    if created_track:
-        created_track["_id"] = str(created_track["_id"])
-        return {"status": "success", "data": create_track}
-
-    raise HTTPException(status_code=404, detail="Track could not be created")
+    return {"status": "success", "data": track_dict}
 
 
 @app.get("/tracks")
