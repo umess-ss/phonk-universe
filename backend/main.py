@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from database import track_collection, client, Track
 from fastapi.encoders import jsonable_encoder
 from typing import Optional
+from bson import ObjectId
 
 app = FastAPI(
     title = "Phonk Universe API",
@@ -81,7 +82,47 @@ async def get_tracks(
     return {"status":"success", "count": len(tracks), "data": tracks}
 
 
+@app.get("/tracks/{track_id}")
+async def get_track(track_id: str):
+    """Get a specific track by id"""
+    try:
+        track = await track_collection.find_one({"_id": ObjectId(track_id)})
+        if track:
+            track["_id"] = str(track["_id"])
+            return {"status": "success", "data": track}
+        raise HTTPException(status_code=404, detail="Track not found")
+    except Exception as e:
+        raise HTTPException(status_code=400, detail="Invalid Track ID")
 
+
+
+
+@app.delete("/tracks/{track_id}")
+async def delete_track(track_id: str):
+    """Delete Track by id"""
+    try:
+        result = await track_collection.delete_one({"_id": ObjectId(track_id)})
+        if result.deleted_count > 0:
+            return {"status": "success", "message": "Track deleted successfully..."}
+            
+        raise HTTPException(status_code=404, detail="Track not found")
+        
+    except Exception as e:
+        raise HTTPException(status_code=400, detail=f"Error: {str(e)}")
+    
+
+@app.get("/genres")
+async def get_genres():
+    """Get unique genre"""
+    genres = await track_collection.distinct("genre")
+    return {"status": "success", "data": genres}
+
+
+@app.get("/artists")
+async def get_artists():
+    """Get unique artists"""
+    artists = await track_collection.distinct("artist")
+    return {"status": "success", "data": artists}
 
 
 

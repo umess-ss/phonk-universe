@@ -3,6 +3,7 @@ from pydantic import BaseModel, Field
 from typing import List
 import os
 from dotenv import load_dotenv
+from typing import Optional
 
 
 load_dotenv()
@@ -16,19 +17,22 @@ track_collection = database.get_collection("tracks")
 
 
 class Track(BaseModel):
-    title: str = Field(...)
-    artist: str = Field(...)
-    platform: str = Field(default="youtub or spotify")
-    externalID: str = Field(...)
+    title: str = Field(..., description="Track Title")
+    artist: str = Field(..., description="Track Artist")
+    genre: Optional[str] = Field(default="Phonk", description="Music Genre")
+    platform: str = Field(..., description="Platform youtube or sportfy")
+    externalID: str = Field(..., description="Platform specific id")
+    thumbnail: str = Field(..., description="Thumbnail URL")
 
 
     class Config:
-        # This allows you to see examples in your FastAPI /docs
         json_schema_extra = {
             "example": {
                 "title": "Sahara",
                 "artist": "Hensonn",
+                "genre": "Drift Phonk",
                 "platform": "youtube",
-                "externalID": "hH9MtcFpP5M"
+                "externalID": "hH9MtcFpP5M",
+                "thumbnail": "https://img.youtube.com/vi/hH9MtcFpP5M/0.jpg"
             }
         }
