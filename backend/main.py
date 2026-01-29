@@ -75,7 +75,7 @@ async def get_tracks(
     cursor = track_collection.find(query).limit(limit)
 
 
-    async for track in track_collection.find():
+    async for track in cursor:
         track["_id"] = str(track["_id"])    # convert mongodbid to string
         tracks.append(track)
     return {"status":"success", "count": len(tracks), "data": tracks}
