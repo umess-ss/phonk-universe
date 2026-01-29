@@ -18,7 +18,7 @@ track_collection = database.get_collection("tracks")
 class Track(BaseModel):
     title: str = Field(...)
     artist: str = Field(...)
-    platform: str = Field(description="youtube or spotify")
+    platform: str = Field(default="youtub or spotify")
     externalID: str = Field(...)
 
 
