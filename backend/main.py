@@ -125,6 +125,23 @@ async def get_artists():
     return {"status": "success", "data": artists}
 
 
+@app.get("/tracks/search/{query}")
+async def search_tracks(query: str):
+    """Search tracks by title or artist"""
+    # Simple regex search (case-insensitive)
+    search_query = {
+        "$or": [
+            {"title": {"$regex": query, "$options": "i"}},
+            {"artist": {"$regex": query, "$options": "i"}}
+        ]
+    }
+    tracks = []
+    cursor = track_collection.find(search_query).limit(20)
+    async for track in cursor:
+        track["_id"] = str(track["_id"])
+        tracks.append(track)
+    return {"status": "success", "data": tracks}
+
 
 
 

@@ -1,9 +1,246 @@
-*{
+/* --- Global Styles --- */
+:root {
+  --bg-color: #0a0a0a;
+  --card-bg: #161616;
+  --accent-color: #bb86fc; /* Phonk Purple */
+  --text-primary: #ffffff;
+  --text-secondary: #a0a0a0;
+  --hover-bg: #252525;
+  --transition: all 0.3s ease;
+}
+
+body {
   margin: 0;
   padding: 0;
-  box-sizing: border-box;
+  background-color: var(--bg-color);
+  color: var(--text-primary);
+  font-family: 'Inter', -apple-system, sans-serif;
 }
-html{
-  background: #000;
-  color: #fff;
+
+/* --- Header & Nav --- */
+.header {
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  border-bottom: 1px solid #333;
 }
+
+.header-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.logo {
+  font-size: 1.5rem;
+  letter-spacing: 2px;
+  background: linear-gradient(90deg, #fff, var(--accent-color));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.nav-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  padding: 0.5rem 1rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: var(--transition);
+}
+
+.nav-btn.active {
+  color: var(--accent-color);
+  border-bottom: 2px solid var(--accent-color);
+}
+
+/* --- Search Bar --- */
+.search-container {
+  padding: 2rem;
+  display: flex;
+  justify-content: center;
+}
+
+.search-input {
+  background: var(--card-bg);
+  border: 1px solid #333;
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px 0 0 25px;
+  color: white;
+  width: 300px;
+  outline: none;
+}
+
+.search-btn {
+  background: var(--accent-color);
+  border: none;
+  padding: 0.8rem 1.5rem;
+  border-radius: 0 25px 25px 0;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.clear-btn {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+/* --- Tracks Grid --- */
+.main-content {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 2rem 100px 2rem;
+}
+
+.tracks-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 20px;
+}
+
+/* --- Track Card --- */
+    .track-card {
+      background: #161616;
+      border-radius: 12px;
+      padding: 16px;          /* Space inside the card */
+      width: 200px;           /* Fixed width for a consistent card shape */
+      display: flex;
+      flex-direction: column; /* Stack image on top of text */
+      gap: 12px;
+      transition: transform 0.2s ease;
+      cursor: pointer;
+      border: 1px solid #333;
+    }
+    
+    /* --- The Image Container (The Square) --- */
+    .track-cover {
+      width: 100%;            /* Fills the card width */
+      aspect-ratio: 1 / 1;    /* Forces it to be a perfect square */
+      overflow: hidden;       /* Crops anything outside the square */
+      border-radius: 8px;
+      background-color: #222;
+    }
+    .track-card:hover {
+      background: var(--hover-bg);
+      transform: translateY(-5px);
+    }
+    
+    /* --- The Actual Image --- */
+    .track-cover img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;      /* This is the magic: it fills the box without stretching */
+  display: block;
+}
+
+/* --- Text Styles to prevent overflow --- */
+.track-title {
+  font-size: 1rem;
+  margin: 0;
+  white-space: nowrap;    /* Keeps title on one line */
+  overflow: hidden;
+  text-overflow: ellipsis; /* Adds "..." if the title is too long */
+}
+
+.track-artist {
+  font-size: 0.85rem;
+  color: #a0a0a0;
+  margin: 0;
+}
+
+.play-btn {
+  position: absolute;
+  bottom: 20px;
+  right: 20px;
+  background: var(--accent-color);
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: var(--transition);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.track-card:hover .play-btn {
+  opacity: 1;
+  transform: translateY(-5px);
+}
+
+/* --- Music Player (Footer) --- */
+.player {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #111;
+  border-top: 1px solid #333;
+  padding: 1rem 2rem;
+  z-index: 1000;
+}
+
+.player-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.progress-bar {
+  width: 200px;
+  height: 4px;
+  background: #333;
+  border-radius: 2px;
+  margin: 0 15px;
+  position: relative;
+}
+
+.progress {
+  height: 100%;
+  background: var(--accent-color);
+  border-radius: 2px;
+}
+
+.control-btn {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.2rem;
+  cursor: pointer;
+  margin: 0 10px;
+}
+
+.close-player {
+  background: none;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+}
+
+/* --- Helpers --- */
+.error-message {
+  background: #ff444422;
+  color: #ff4444;
+  padding: 1rem;
+  border-radius: 8px;
+  margin-bottom: 1rem;
+}
+
+.coming-soon {
+  text-align: center;
+  padding: 5rem;
+  color: var(--text-secondary);
+}
+

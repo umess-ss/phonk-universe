@@ -1,15 +1,19 @@
-export default function Header(){
-  return(
-    <header style={{
-      padding: '5px 30px',
-      background: '#000',
-      borderBottom: '1px solid #1a1a1a',
-      display: "flex",
-      justifyContent: "space-between",
-      alignItems: "center",
-    }}>
-      <h1 style={{color:"green", margin:0, letterSpacing:"7px"}}>PHONK UNIVERSE</h1>
-      <h1 style={{color:"#666"}}>Ultimate xs</h1>
-    </header>
-  );
-}
+const Header = ({activeTab, setActiveTab}) =>(
+  <header className="header">
+    <div className="header-content">
+      <h1 className="logo">PHONK UNIVERSE</h1>
+      <nav className="nav">
+        {['tracks', 'playlists', 'about'].map((tab)=>(
+          <button 
+          key={tab}
+          className={activeTab === tab ? 'nav-btn active' : 'nav-btn'}
+          onClick={()=> setActiveTab(tab)}>
+            {tab.charAt(0).toUpperCase() + tab.slice(1)}
+          </button>
+        ))}
+      </nav>
+    </div>
+  </header>
+)
+
+export default Header;
