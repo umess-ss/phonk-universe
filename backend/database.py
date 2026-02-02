@@ -22,7 +22,7 @@ class Track(BaseModel):
     genre: Optional[str] = Field(default="Phonk", description="Music Genre")
     platform: str = Field(..., description="Platform youtube or sportfy")
     externalID: str = Field(..., description="Platform specific id")
-    thumbnail: str = Field(..., description="Thumbnail URL")
+    thumbnail: Optional[str] = Field(default=None, description="Thumbnail URL")
 
 
     class Config:

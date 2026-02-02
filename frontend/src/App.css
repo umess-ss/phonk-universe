@@ -107,26 +107,31 @@ body {
 }
 
 /* --- Track Card --- */
-    .track-card {
-      background: #161616;
-      border-radius: 12px;
-      padding: 16px;          /* Space inside the card */
-      width: 200px;           /* Fixed width for a consistent card shape */
-      display: flex;
-      flex-direction: column; /* Stack image on top of text */
-      gap: 12px;
-      transition: transform 0.2s ease;
-      cursor: pointer;
-      border: 1px solid #333;
-    }
+  .track-card {
+  position: relative; /* Add this! Keeps the button inside the card */
+  background: #161616;
+  border-radius: 12px;
+  padding: 16px;
+  width: 200px;
+  background: #161616;
+  border-radius: 12px;
+  padding: 16px;          /* Space inside the card */
+  width: 200px;           /* Fixed width for a consistent card shape */
+  display: flex;
+  flex-direction: column; /* Stack image on top of text */
+  gap: 12px;
+  transition: transform 0.2s ease;
+  cursor: pointer;
+  border: 1px solid #333;
+  }
     
-    /* --- The Image Container (The Square) --- */
-    .track-cover {
-      width: 100%;            /* Fills the card width */
-      aspect-ratio: 1 / 1;    /* Forces it to be a perfect square */
-      overflow: hidden;       /* Crops anything outside the square */
-      border-radius: 8px;
-      background-color: #222;
+
+  .track-cover {
+    width: 100%;           
+    aspect-ratio: 1 / 1;    
+    overflow: hidden;       
+    border-radius: 8px;
+    background-color: #222;
     }
     .track-card:hover {
       background: var(--hover-bg);

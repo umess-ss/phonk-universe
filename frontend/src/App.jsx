@@ -86,7 +86,7 @@ function App(){
           <section className="tracks-section">
             <h2 className="section-title">All Tracks</h2>
             {loading ? <p>Loading...</p> :(
-              <div className="track-grid">
+              <div className="tracks-grid">
                 {tracks.map(track=> (
                   <TrackCard 
                     key={track._id}

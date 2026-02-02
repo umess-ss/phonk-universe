@@ -2,7 +2,7 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from database import track_collection, client, Track
 from fastapi.encoders import jsonable_encoder
-from typing import Optional
+from typing import Optional, List
 from bson import ObjectId
 
 app = FastAPI(
@@ -55,6 +55,25 @@ async def create_track(track: Track):
     track_dict["_id"] = str(result.inserted_id)
 
     return {"status": "success","message":"Track Added Successfully", "data": track_dict}
+
+
+@app.post("/add-tracks-bulk")
+async def add_tracks_bulk(tracks: List[Track]):
+    try:
+        # Convert the list of Pydantic models into a list of dictionaries
+        track_dicts = [track.dict() for track in tracks]
+        
+        # Insert into MongoDB
+        result = await track_collection.insert_many(track_dicts)
+        
+        return {
+            "status": "success", 
+            "inserted_count": len(result.inserted_ids),
+            "ids": [str(id) for id in result.inserted_ids]
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 
 @app.get("/tracks")

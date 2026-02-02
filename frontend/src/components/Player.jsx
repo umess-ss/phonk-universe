@@ -1,4 +1,4 @@
-const Player = ({track, formatDuration, onclose}) => (
+const Player = ({track, formatDuration, onClose}) => (
     <div className="player">
         <div className="player-content">
             <div className="player-track-info">
