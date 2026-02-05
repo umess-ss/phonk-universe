@@ -49,16 +49,19 @@ function App(){
     const handleSearch = async (e) => {
       e.preventDefault();
       if (!searchQuery.trim()) return fetchTracks;
-      try{
-        setLoading(true);
-        const response = await fetch(`${API_URL}/tracks/search/${searchQuery}`);
-        if (!response.ok) throw new Error('Search failed');
-        setTracks(await response.json());
-      }catch (error){
-        setError(err.message);
-    } finally {
-      setLoading(false);
-    } 
+try {
+    setLoading(true);
+    const response = await fetch(`${API_URL}/tracks/search/${encodeURIComponent(searchQuery)}`);
+    if (!response.ok) throw new Error('Search failed');
+    
+    const result = await response.json();
+    setTracks(result.data || []); 
+    setError(null);
+  } catch (err) {
+    setError(err.message);
+  } finally {
+    setLoading(false);
+  }
     };
 
 
