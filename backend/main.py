@@ -4,6 +4,7 @@ from database import track_collection, client, Track
 from fastapi.encoders import jsonable_encoder
 from typing import Optional, List
 from bson import ObjectId
+import yt_dlp
 
 app = FastAPI(
     title = "Phonk Universe API",
@@ -160,6 +161,38 @@ async def search_tracks(query: str):
         track["_id"] = str(track["_id"])
         tracks.append(track)
     return {"status": "success", "data": tracks}
+
+
+
+@app.get("/proxy/youtube/{video_id}")
+async def proxy_youtube_audio(video_id: str):
+    """Get yt audio stream url"""
+    try:
+        ydl_opts = {
+            'format': 'bestaudio/best',
+            'quiet': True,
+            'no_warning': True,
+        }
+
+        with yt_dlp.YoutubeDL(ydl_opts) as ydl:
+            info = ydl.extract_info(
+                f"https://www.youtube.com/watch?v={video_id}",
+                download=False
+            )
+            return {
+                "status": "success",
+                "url" : info["url"],
+                "title": info["title"],
+                "duration": info["duration"]
+            }
+        
+
+    except Exception as e:
+        raise HTTPException(
+            status_code=500,
+            detail=f"Failed to get audio:{str(e)}"
+        )
+
 
 
 
