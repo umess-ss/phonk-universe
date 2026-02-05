@@ -24,6 +24,11 @@ function App(){
 
     useEffect(()=> {fetchTracks();},[]);
 
+    useEffect(() => {
+  if (searchQuery === '') {
+    fetchTracks();
+  }
+}, [searchQuery]);
 
 
     const fetchTracks = async () => {
@@ -47,8 +52,11 @@ function App(){
 
 
     const handleSearch = async (e) => {
-      e.preventDefault();
-      if (!searchQuery.trim()) return fetchTracks;
+      if (e) e.preventDefault();
+      if (!searchQuery.trim()){
+       fetchTracks;
+       return;
+      }
 try {
     setLoading(true);
     const response = await fetch(`${API_URL}/tracks/search/${encodeURIComponent(searchQuery)}`);
